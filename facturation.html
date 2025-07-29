@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Facturation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      min-height: 100vh;
+    }
+    /* CONTENU PRINCIPAL */
+    .main-content {
+      margin-left: 240px;
+      padding: 30px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #023436;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .facture-form, .facture-list {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #03B5AA;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #02938e;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background-color: #03B5AA;
+      color: white;
+    }
+
+    .btn-delete {
+      background-color: #FF8552;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-delete:hover {
+      background-color: #e66d3d;
+    }
+    /* barre latérale */
+    .sidebar {
+  width: 220px;
+  background-color: #023436;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.nav-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, padding-left 0.3s;
+}
+
+.nav-link:hover {
+  background-color: #03B5AA;
+  padding-left: 15px;
+}
+
+.nav-link.active {
+  background-color: #03B5AA;
+  font-weight: bold;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+body.dark-mode header,
+body.dark-mode footer,
+body.dark-mode .sidebar {
+  background-color: #1f1f1f;
+  color: white;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #1f1f1f;
+  color: #f1f1f1;
+  border: 1px solid #444;
+}
+
+body.dark-mode button,
+body.dark-mode .btn {
+  background-color: #03b5aa;
+  color: white;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .btn:hover {
+  background-color: #029d94;
+}
+
+body.dark-mode .section,
+body.dark-mode .appointments-list table,
+body.dark-mode .patients-list table,
+body.dark-mode #addAppointmentForm,
+body.dark-mode .form-container,
+body.dark-mode .card,
+body.dark-mode .chart {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+body.dark-mode th {
+  background-color: #03B5AA;
+  color: white;
+}
+
+body.dark-mode .nav-link:hover {
+  background-color: #03b5aa;
+}
+
+  </style>
+</head>
+<script>
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+</script>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>DziryCare</h2>
+    <a href="acceuil.html" class="nav-link">🏠 Tableau de bord</a>
+    <a href="patients.html" class="nav-link">👤 Patients</a>
+    <a href="rendezvous.html" class="nav-link">📅 Rendez-vous</a>
+    <a href="facturation.html" class="nav-link">💰 Facturation</a>
+    <a href="stock.html" class="nav-link">📦 Stock</a>
+    <a href="statistiques.html" class="nav-link">📊 Statistiques</a>
+    <a href="paramètres.html" class="nav-link">⚙️ Paramètres</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>Facturation</h1>
+    <button onclick="toggleDarkMode()" style="position: absolute; top: 10px; right: 20px;">🌓</button>
+
+    <div class="facture-form">
+      <h2>Nouvelle Facture</h2>
+      <input type="text" id="patient" placeholder="Nom du patient" />
+      <input type="number" id="montant" placeholder="Montant (DA)" />
+      <select id="methode">
+        <option value="">Méthode de paiement</option>
+        <option>Espèce</option>
+        <option>Carte</option>
+        <option>Chèque</option>
+      </select>
+      <input type="date" id="dateFacture" />
+      <button onclick="ajouterFacture()">Ajouter Facture</button>
+    </div>
+
+    <div class="facture-list">
+      <h2>Historique des factures</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Montant</th>
+            <th>Méthode</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="listeFactures">
+          <!-- Factures dynamiques ici -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function ajouterFacture() {
+      const patient = document.getElementById('patient').value.trim();
+      const montant = document.getElementById('montant').value;
+      const methode = document.getElementById('methode').value;
+      const date = document.getElementById('dateFacture').value;
+
+      if (!patient || !montant || !methode || !date) {
+        alert('Veuillez remplir tous les champs.');
+        return;
+      }
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${patient}</td>
+        <td>${montant} DA</td>
+        <td>${methode}</td>
+        <td>${date}</td>
+        <td><button class="btn-delete" onclick="this.closest('tr').remove()">Supprimer</button></td>
+      `;
+
+      document.getElementById('listeFactures').appendChild(tr);
+
+      document.getElementById('patient').value = '';
+      document.getElementById('montant').value = '';
+      document.getElementById('methode').value = '';
+      document.getElementById('dateFacture').value = '';
+    }
+    function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark-mode");
+    }
+  });
+
+  </script>
+</body>
+</html>

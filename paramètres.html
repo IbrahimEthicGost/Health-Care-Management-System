@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paramètres - HealthCareSys</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  background: #f5f5f5;
+  margin-left: 240px;
+  max-width: 900px;
+}
+
+    h1 { color: #023436; margin-bottom: 1rem; }
+
+    .section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    .section h2 { margin-bottom: 1rem; color: #03b5aa; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-group input[type="checkbox"] { width: auto; margin-right: 0.5rem; }
+
+    .btn-save {
+      background: #03b5aa;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-save:hover { background: #029e95; }
+    .sidebar {
+  width: 220px;
+  background-color: #023436;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.nav-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, padding-left 0.3s;
+}
+
+.nav-link:hover {
+  background-color: #03B5AA;
+  padding-left: 15px;
+}
+
+.nav-link.active {
+  background-color: #03B5AA;
+  font-weight: bold;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+body.dark-mode header,
+body.dark-mode footer,
+body.dark-mode .sidebar {
+  background-color: #1f1f1f;
+  color: white;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #1f1f1f;
+  color: #f1f1f1;
+  border: 1px solid #444;
+}
+
+body.dark-mode button,
+body.dark-mode .btn {
+  background-color: #03b5aa;
+  color: white;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .btn:hover {
+  background-color: #029d94;
+}
+
+body.dark-mode .section,
+body.dark-mode .appointments-list table,
+body.dark-mode .patients-list table,
+body.dark-mode #addAppointmentForm,
+body.dark-mode .form-container,
+body.dark-mode .card,
+body.dark-mode .chart {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+body.dark-mode th {
+  background-color: #03B5AA;
+  color: white;
+}
+
+body.dark-mode .nav-link:hover {
+  background-color: #03b5aa;
+}
+
+  </style>
+</head>
+<script>
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+</script>
+<body>
+    <div class="sidebar">
+        <h2>DziryCare</h2>
+        <a href="acceuil.html" class="nav-link">🏠 Tableau de bord</a>
+        <a href="patients.html" class="nav-link">👤 Patients</a>
+        <a href="rendezvous.html" class="nav-link">📅 Rendez-vous</a>
+        <a href="facturation.html" class="nav-link">💰 Facturation</a>
+        <a href="stock.html" class="nav-link">📦 Stock</a>
+        <a href="statistiques.html" class="nav-link">📊 Statistiques</a>
+        <a href="paramètres.html" class="nav-link">⚙️ Paramètres</a>
+    </div>
+  <main>
+    <h1>Paramètres</h1>
+    <button onclick="toggleDarkMode()" style="position: absolute; top: 10px; right: 20px;">🌓</button>
+
+    <section class="section">
+      <h2>Profil utilisateur</h2>
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" placeholder="Dr. Amina Bensalem" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="amina@clinique.dz" />
+      </div>
+      <div class="form-group">
+        <label>Spécialité</label>
+        <input type="text" placeholder="Cardiologue" />
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Préférences du système</h2>
+      <div class="form-group">
+        <label>Durée par défaut d’un RDV</label>
+        <select>
+          <option>15 minutes</option>
+          <option>30 minutes</option>
+          <option>45 minutes</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Format de date</label>
+        <select>
+          <option>JJ/MM/AAAA</option>
+          <option>MM/JJ/AAAA</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Thème</h2>
+      <div class="form-group">
+        <label><input type="checkbox" /> Activer le mode sombre</label>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Sécurité</h2>
+      <div class="form-group">
+        <label>Nouveau mot de passe</label>
+        <input type="password" placeholder="********" />
+      </div>
+    </section>
+
+    <button class="btn-save">Enregistrer les modifications</button>
+  </main>
+</body>
+</html>

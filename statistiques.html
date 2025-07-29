@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Statistiques</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      min-height: 100vh;
+    }
+    .main-content {
+      margin-left: 240px;
+      padding: 30px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #023436;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .stats-overview, .stats-table {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .stats-grid {
+      display: flex;
+      gap: 20px;
+      justify-content: space-around;
+    }
+
+    .stat-box {
+      background-color: #03B5AA;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      flex: 1;
+    }
+
+    .stat-box h2 {
+      font-size: 32px;
+    }
+
+    .stat-box p {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background-color: #03B5AA;
+      color: white;
+    }
+    .sidebar {
+  width: 220px;
+  background-color: #023436;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.nav-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, padding-left 0.3s;
+}
+
+.nav-link:hover {
+  background-color: #03B5AA;
+  padding-left: 15px;
+}
+
+.nav-link.active {
+  background-color: #03B5AA;
+  font-weight: bold;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+body.dark-mode header,
+body.dark-mode footer,
+body.dark-mode .sidebar {
+  background-color: #1f1f1f;
+  color: white;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #1f1f1f;
+  color: #f1f1f1;
+  border: 1px solid #444;
+}
+
+body.dark-mode button,
+body.dark-mode .btn {
+  background-color: #03b5aa;
+  color: white;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .btn:hover {
+  background-color: #029d94;
+}
+
+body.dark-mode .section,
+body.dark-mode .appointments-list table,
+body.dark-mode .patients-list table,
+body.dark-mode #addAppointmentForm,
+body.dark-mode .form-container,
+body.dark-mode .card,
+body.dark-mode .chart {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+body.dark-mode th {
+  background-color: #03B5AA;
+  color: white;
+}
+
+body.dark-mode .nav-link:hover {
+  background-color: #03b5aa;
+}
+
+  </style>
+</head>
+<script>
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+</script>
+<body>
+
+  <!-- Barre latérale -->
+  <div class="sidebar">
+    <h2>DziryCare</h2>
+    <a href="acceuil.html" class="nav-link">🏠 Tableau de bord</a>
+    <a href="patients.html" class="nav-link">👤 Patients</a>
+    <a href="rendezvous.html" class="nav-link">📅 Rendez-vous</a>
+    <a href="facturation.html" class="nav-link">💰 Facturation</a>
+    <a href="stock.html" class="nav-link">📦 Stock</a>
+    <a href="statistiques.html" class="nav-link">📊 Statistiques</a>
+    <a href="paramètres.html" class="nav-link">⚙️ Paramètres</a>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="main-content">
+    <h1>Statistiques</h1>
+    <button onclick="toggleDarkMode()" style="position: absolute; top: 10px; right: 20px;">🌓</button>
+
+    <div class="stats-overview">
+      <h2>Vue d'ensemble</h2>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <h2>120</h2>
+          <p>Patients enregistrés</p>
+        </div>
+        <div class="stat-box">
+          <h2>35</h2>
+          <p>Consultations cette semaine</p>
+        </div>
+        <div class="stat-box">
+          <h2>1.250 DA</h2>
+          <p>Revenus du jour</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-table">
+      <h2>Détails des consultations</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Patient</th>
+            <th>Motif</th>
+            <th>Montant</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025-07-25</td>
+            <td>Ahmed B.</td>
+            <td>Suivi général</td>
+            <td>500 DA</td>
+          </tr>
+          <tr>
+            <td>2025-07-26</td>
+            <td>Fatima Z.</td>
+            <td>Analyse de sang</td>
+            <td>750 DA</td>
+          </tr>
+          <tr>
+            <td>2025-07-27</td>
+            <td>Yacine T.</td>
+            <td>Douleurs dorsales</td>
+            <td>600 DA</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script href="statistiques.js"></script>
+</body>
+</html>
+
